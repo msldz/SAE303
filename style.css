@@ -15,3 +15,25 @@
     /* Bonus : arrondir légèrement les coins pour un look plus moderne */
     border-radius: 8px;
 }
+
+/* --- Style des Popups Leaflet --- */
+
+/* La boîte globale de la popup */
+.popup-contenu {
+    text-align: center; /* On centre tout le texte */
+    font-size: 14px;
+}
+
+/* Le titre de la boulangerie */
+.popup-titre {
+    margin: 0 0 8px 0; /* Enlève la marge du haut, petit espace en bas */
+    color: #d35400;    /* Une couleur "pain grillé" (orange foncé) */
+    font-size: 16px;
+    text-transform: uppercase; /* Met le nom en majuscules automatiquement */
+}
+
+/* L'adresse */
+.popup-adresse {
+    margin: 0;
+    color: #555; /* Gris foncé pour le texte secondaire */
+}
