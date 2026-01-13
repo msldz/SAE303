@@ -1,0 +1,17 @@
+#map {
+    /* Largeur : 90% de la largeur de l'écran (laisse un peu de marge sur les côtés) */
+    width: 90%; 
+    
+    /* Hauteur : 70vh veut dire "70% de la hauteur visible de la fenêtre" */
+    /* C'est idéal pour que la carte soit grande sans obliger à scroller à l'infini */
+    height: 70vh; 
+    
+    /* Marge : 2rem en haut/bas, et 'auto' à gauche/droite pour CENTRER la carte */
+    margin: 2rem auto; 
+    
+    /* Un cadre sombre pour bien délimiter la zone interactive */
+    border: 2px solid #333;
+    
+    /* Bonus : arrondir légèrement les coins pour un look plus moderne */
+    border-radius: 8px;
+}
