@@ -1,39 +1,229 @@
-#map {
-    /* Largeur : 90% de la largeur de l'écran (laisse un peu de marge sur les côtés) */
-    width: 90%; 
-    
-    /* Hauteur : 70vh veut dire "70% de la hauteur visible de la fenêtre" */
-    /* C'est idéal pour que la carte soit grande sans obliger à scroller à l'infini */
-    height: 70vh; 
-    
-    /* Marge : 2rem en haut/bas, et 'auto' à gauche/droite pour CENTRER la carte */
-    margin: 2rem auto; 
-    
-    /* Un cadre sombre pour bien délimiter la zone interactive */
-    border: 2px solid #333;
-    
-    /* Bonus : arrondir légèrement les coins pour un look plus moderne */
-    border-radius: 8px;
+/* --- 1. FONTS & BASE --- */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap');
+
+:root {
+    --pain-croute: #d35400;    
+    --pain-mie: #fcf3cf;       
+    --farine: #fdfbf7;       
+    --texte: #2c3e50;       
+    --dore: #f39c12;   
 }
 
-/* --- Style des Popups Leaflet --- */
-
-/* La boîte globale de la popup */
-.popup-contenu {
-    text-align: center; /* On centre tout le texte */
-    font-size: 14px;
-}
-
-/* Le titre de la boulangerie */
-.popup-titre {
-    margin: 0 0 8px 0; /* Enlève la marge du haut, petit espace en bas */
-    color: #d35400;    /* Une couleur "pain grillé" (orange foncé) */
-    font-size: 16px;
-    text-transform: uppercase; /* Met le nom en majuscules automatiquement */
-}
-
-/* L'adresse */
-.popup-adresse {
+body {
     margin: 0;
-    color: #555; /* Gris foncé pour le texte secondaire */
+    padding: 0;
+    font-family: 'Lato', sans-serif;
+    background-color: var(--farine);
+    color: var(--texte);
+}
+
+/* --- 2. NAVIGATION --- */
+nav {
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 1rem 0;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav li {
+    display: inline-block;
+    list-style: none;
+    margin: 0 15px;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--texte);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--pain-croute);
+}
+
+/* --- 3. SECTION TITRE (HERO) --- */
+section {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: linear-gradient(to bottom, #ffffff, var(--pain-mie));
+    border-bottom: 4px solid var(--dore);
+    margin-bottom: 2rem;
+}
+
+section h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--pain-croute);
+    margin-bottom: 1rem;
+    margin-top: 0;
+}
+
+section p {
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 800px;
+    margin: 0.5rem auto;
+    line-height: 1.5;
+}
+
+/* --- 4. LA CARTE (#map) --- */
+#map {
+    width: 90%;
+    height: 70vh;
+    margin: 2rem auto;
+    border: 8px solid white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    z-index: 1; 
+}
+
+/* --- 5. LES POPUPS --- */
+.leaflet-popup-content-wrapper {
+    border-radius: 0;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.leaflet-popup-content {
+    margin: 0 !important;
+    width: 260px !important;
+}
+
+.popup-contenu {
+    text-align: center;
+}
+
+.popup-titre {
+    background-color: var(--pain-croute);
+    color: white;
+    font-family: 'Playfair Display', serif;
+    margin: 0;
+    padding: 15px 10px;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.popup-adresse {
+    padding: 15px;
+    margin: 0;
+    font-size: 0.95rem;
+    color: #444;
+    background-color: white;
+}
+
+.popup-adresse strong {
+    display: block;
+    margin-top: 8px;
+    color: var(--pain-croute);
+    font-size: 1rem;
+}
+
+/* --- 6. BARRE DE RECHERCHE AVANCEE (STYLE GOOGLE MAPS) --- */
+
+.search-container {
+    text-align: center;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center; 
+}
+
+/* Le conteneur "wrapper" permet d'aligner l'input et la liste */
+.input-wrapper {
+    position: relative; 
+    width: 60%;
+    max-width: 500px;
+}
+
+#search-input {
+    width: 100%; 
+    padding: 15px 25px;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 50px;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    box-sizing: border-box; 
+}
+
+#search-input:focus {
+    border-color: var(--pain-croute);
+    box-shadow: 0 4px 12px rgba(211, 84, 0, 0.2);
+}
+
+/* La boîte blanche des suggestions */
+.suggestions-box {
+    position: absolute;
+    top: 100%;
+    left: 15px; 
+    right: 15px;
+    background: white;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    z-index: 10000; 
+    overflow: hidden;
+    display: none; 
+    border: 1px solid #eee;
+    border-top: none;
+    margin-top: -10px; 
+    padding-top: 10px;
+}
+
+/* Style de chaque ligne de suggestion */
+.suggestion-item {
+    padding: 12px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    text-align: left;
+    transition: background 0.2s;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background-color: #fff8e1;
+}
+
+/* Typographie dans les suggestions */
+.suggestion-nom {
+    font-weight: bold;
+    color: #2c3e50;
+    display: block;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.suggestion-infos {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    display: block;
+}
+
+/* --- 7. ANIMATION --- */
+@keyframes tomber {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.leaflet-marker-icon {
+    animation: tomber 0.5s ease-out;
+}
+/* --- 8. MESSAGE QUAND AUCUN RESULTAT --- */
+.message-vide {
+    padding: 15px 20px;
+    color: #95a5a6;       
+    font-style: italic;   
+    text-align: center; 
+    background-color: white;
+    cursor: default; 
 }
