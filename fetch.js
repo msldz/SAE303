@@ -128,6 +128,29 @@ function afficherSuggestions(liste) {
         });
     });
 }
+async function init() {
+     const reponse = await fetch("geo-boulangeries-ble-idf.json");
+     toutesLesBoulangeries = await reponse.json();
 
+     // 1. Calcul des statistiques
+     const total = toutesLesBoulangeries.length;
+     
+     // Compter les départements uniques
+     const depsUniques = [...new Set(toutesLesBoulangeries.map(b => b.departement))].length;
+     
+     // Trouver la ville la plus représentée
+     const villes = toutesLesBoulangeries.map(b => b.ville);
+     const topVille = villes.sort((a,b) =>
+          villes.filter(v => v===a).length - villes.filter(v => v===b).length
+     ).pop();
+
+     // 2. Mise à jour du DOM
+     document.getElementById('compteur-boulangeries').textContent = total;
+     document.getElementById('compteur-deps').textContent = depsUniques;
+     document.getElementById('top-ville').textContent = topVille;
+
+     afficherLesMarkers(toutesLesBoulangeries);
+     activerRechercheAvancee();
+}
 // Lancement du script
 init();
